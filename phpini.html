@@ -1,0 +1,36 @@
+ <?php
+ // 发送HTTP请求函数
+function sendRequest($method, $url, $data = [], $headers = [], $json = false) {
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $method === 'GET' && !empty($data) ? $url . '?' . http_build_query($data) : $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false
+    ]);
+    if ($method === 'POST') {
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json ? json_encode($data) : http_build_query($data));
+        $headers[] = 'Content-Type: ' . ($json ? 'application/json' : 'application/x-www-form-urlencoded');
+    }
+    if (!empty($headers)) {
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    }
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        return 'cURL Error: ' . curl_error($ch);
+    }
+    curl_close($ch);
+    return $response;
+}
+// 解密函数
+function decrypt($data, $key, $method = 'AES-256-CBC') {
+    list($encryptedData, $iv) = explode('::', base64_decode($data), 2);
+    return openssl_decrypt($encryptedData, $method, $key, 0, base64_decode($iv));
+}
+// 加密函数
+function encrypt($data, $key, $method = 'AES-256-CBC') {
+    $iv = random_bytes(openssl_cipher_iv_length($method));
+    $encrypted = openssl_encrypt($data, $method, $key, 0, $iv);
+    return base64_encode($encrypted . '::' . base64_encode($iv));
+}
